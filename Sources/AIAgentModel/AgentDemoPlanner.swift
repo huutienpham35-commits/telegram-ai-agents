@@ -1,6 +1,6 @@
 import Foundation
 
-#if targetEnvironment(simulator) || os(macOS)
+#if true
 
 /// The local demo agent's "brain": reads what the user wrote and builds a path of work that fits it. Made-up content,
 /// so it only exists in the simulator (and on macOS for the host tests). The agent speaks English; it also understands

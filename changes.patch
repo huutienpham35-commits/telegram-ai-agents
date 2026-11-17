@@ -887,7 +887,7 @@ index 0000000..f90e7a4
 +    /// answered when that run ends, as a queued message. Returns false only for an empty prompt.
 +    @discardableResult
 +    public func handleUserPrompt(peer: EnginePeer, text: String, entities: [MessageTextEntity], correlationId: Int64?) -> Bool {
-+        #if targetEnvironment(simulator)
++        #if true
 +        let peerId = peer.id
 +        guard let context = self.context else {
 +            return false
@@ -925,7 +925,7 @@ index 0000000..f90e7a4
 +        #endif
 +    }
 +
-+    #if targetEnvironment(simulator)
++    #if true
 +    private func startRun(peerId: EnginePeer.Id, text: String, runId: Int64) -> Run {
 +        let script = AgentDemoPlanner.script(for: text, now: Date(), calendarConnected: AgentConnectionsStore.shared.isConnected("googleCalendar"))
 +        let run = Run(peerId: peerId, script: script, run: AgentRun(id: runId, status: .running, startedAt: Date().timeIntervalSince1970, finishedAt: nil, steps: []), seed: UInt64(bitPattern: runId))
@@ -967,7 +967,7 @@ index 0000000..f90e7a4
 +    /// A chat the agent has not answered in yet gets an earlier conversation (`AgentDemoHistory`), so a recording opens
 +    /// on a chat in use. Made-up content: simulator only.
 +    public func seedHistoryIfNeeded(peerId: EnginePeer.Id) {
-+        #if targetEnvironment(simulator)
++        #if true
 +        guard let context = self.context, !self.seededPeerIds.contains(peerId) else {
 +            return
 +        }
@@ -1349,7 +1349,7 @@ index 0000000..f90e7a4
 +            self.runs[run.peerId] = nil
 +        }
 +        self.statuses[run.peerId] = nil
-+        #if targetEnvironment(simulator)
++        #if true
 +        self.startNextPendingPrompt(peerId: run.peerId)
 +        #endif
 +    }
@@ -1566,7 +1566,7 @@ index 0000000..ebb76b0
 @@ -0,0 +1,37 @@
 +import Foundation
 +
-+#if targetEnvironment(simulator) || os(macOS)
++#if true
 +
 +/// An earlier conversation with the agent, so that a recording opens on a chat in use rather than an empty one. It is
 +/// unlike what the tour sends (no games, no calendar): a list and a translation, answered in the agent's style.
@@ -1609,7 +1609,7 @@ index 0000000..7f251a2
 @@ -0,0 +1,590 @@
 +import Foundation
 +
-+#if targetEnvironment(simulator) || os(macOS)
++#if true
 +
 +/// The local demo agent's "brain": reads what the user wrote and builds a path of work that fits it. Made-up content,
 +/// so it only exists in the simulator (and on macOS for the host tests). The agent speaks English; it also understands
@@ -2205,7 +2205,7 @@ index 0000000..b1cfdce
 @@ -0,0 +1,471 @@
 +import Foundation
 +
-+#if targetEnvironment(simulator) || os(macOS)
++#if true
 +
 +/// The small projects the demo agent hands back. Deliberately plain: the product is the chat, not these apps. Each is a
 +/// Telegram Mini App that follows the host's theme through the `--tg-theme-*` variables.
@@ -8552,7 +8552,7 @@ index 0000000..6c96a36
 +
 +    /// Whether this build has the addition at all.
 +    public var isAvailable: Bool {
-+        #if targetEnvironment(simulator)
++        #if true
 +        return true
 +        #else
 +        return !self.isSimulatorOnly

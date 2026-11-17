@@ -26,7 +26,7 @@ public enum ConceptFeature: String, CaseIterable {
 
     /// Whether this build has the addition at all.
     public var isAvailable: Bool {
-        #if targetEnvironment(simulator)
+        #if true
         return true
         #else
         return !self.isSimulatorOnly

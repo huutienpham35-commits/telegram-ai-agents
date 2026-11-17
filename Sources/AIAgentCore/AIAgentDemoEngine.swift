@@ -53,7 +53,7 @@ public final class AIAgentDemoEngine {
     /// answered when that run ends, as a queued message. Returns false only for an empty prompt.
     @discardableResult
     public func handleUserPrompt(peer: EnginePeer, text: String, entities: [MessageTextEntity], correlationId: Int64?) -> Bool {
-        #if targetEnvironment(simulator)
+        #if true
         let peerId = peer.id
         guard let context = self.context else {
             return false
@@ -91,7 +91,7 @@ public final class AIAgentDemoEngine {
         #endif
     }
 
-    #if targetEnvironment(simulator)
+    #if true
     private func startRun(peerId: EnginePeer.Id, text: String, runId: Int64) -> Run {
         let script = AgentDemoPlanner.script(for: text, now: Date(), calendarConnected: AgentConnectionsStore.shared.isConnected("googleCalendar"))
         let run = Run(peerId: peerId, script: script, run: AgentRun(id: runId, status: .running, startedAt: Date().timeIntervalSince1970, finishedAt: nil, steps: []), seed: UInt64(bitPattern: runId))
@@ -133,7 +133,7 @@ public final class AIAgentDemoEngine {
     /// A chat the agent has not answered in yet gets an earlier conversation (`AgentDemoHistory`), so a recording opens
     /// on a chat in use. Made-up content: simulator only.
     public func seedHistoryIfNeeded(peerId: EnginePeer.Id) {
-        #if targetEnvironment(simulator)
+        #if true
         guard let context = self.context, !self.seededPeerIds.contains(peerId) else {
             return
         }
@@ -515,7 +515,7 @@ public final class AIAgentDemoEngine {
             self.runs[run.peerId] = nil
         }
         self.statuses[run.peerId] = nil
-        #if targetEnvironment(simulator)
+        #if true
         self.startNextPendingPrompt(peerId: run.peerId)
         #endif
     }

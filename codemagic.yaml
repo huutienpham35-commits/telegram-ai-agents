@@ -1,0 +1,38 @@
+workflows:
+  telegram-ios-build:
+    name: Build Telegram iOS (AI Agent)
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    environment:
+      vars:
+        TELEGRAM_COMMIT: "fb0e62b"
+    scripts:
+      - name: Install dependencies
+        script: |
+          brew install bazelisk cmake ninja
+      - name: Clone Telegram-iOS and apply patch
+        script: |
+          git clone --recursive https://github.com/TelegramMessenger/Telegram-iOS.git /tmp/Telegram-iOS
+          cd /tmp/Telegram-iOS
+          git checkout $TELEGRAM_COMMIT
+          git submodule update --init --recursive
+          git apply $CM_BUILD_DIR/changes.patch
+      - name: Setup build configuration
+        script: |
+          cd /tmp/Telegram-iOS
+          python3 build-system/Make/Make.py \
+            --overrideXcodeVersion \
+            generateProject \
+            --configurationPath=build-system/minimal-build-configuration.json
+      - name: Build IPA (Unsigned / Simulator or Device)
+        script: |
+          cd /tmp/Telegram-iOS
+          mkdir -p $CM_BUILD_DIR/artifacts
+          python3 build-system/Make/Make.py \
+            --overrideXcodeVersion \
+            buildForDevice \
+            --configurationPath=build-system/minimal-build-configuration.json \
+            --outputPath=$CM_BUILD_DIR/artifacts/Telegram.ipa || true
+    artifacts:
+      - artifacts/*.ipa
+      - artifacts/*.app

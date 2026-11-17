@@ -1,6 +1,6 @@
 import Foundation
 
-#if targetEnvironment(simulator) || os(macOS)
+#if true
 
 /// An earlier conversation with the agent, so that a recording opens on a chat in use rather than an empty one. It is
 /// unlike what the tour sends (no games, no calendar): a list and a translation, answered in the agent's style.

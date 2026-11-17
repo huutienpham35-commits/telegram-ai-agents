@@ -1,6 +1,6 @@
 import Foundation
 
-#if targetEnvironment(simulator) || os(macOS)
+#if true
 
 /// The small projects the demo agent hands back. Deliberately plain: the product is the chat, not these apps. Each is a
 /// Telegram Mini App that follows the host's theme through the `--tg-theme-*` variables.
