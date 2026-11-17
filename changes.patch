@@ -8544,7 +8544,7 @@ index 0000000..6c96a36
 +    public var isSimulatorOnly: Bool {
 +        switch self {
 +        case .aiAgentDemo:
-+            return true
++            return false
 +        case .aiAgentStyle, .aiAgentAscii:
 +            return false
 +        }

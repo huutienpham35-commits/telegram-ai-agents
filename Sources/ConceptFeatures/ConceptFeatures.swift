@@ -18,7 +18,7 @@ public enum ConceptFeature: String, CaseIterable {
     public var isSimulatorOnly: Bool {
         switch self {
         case .aiAgentDemo:
-            return true
+            return false
         case .aiAgentStyle, .aiAgentAscii:
             return false
         }
