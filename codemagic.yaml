@@ -17,22 +17,19 @@ workflows:
           git checkout $TELEGRAM_COMMIT
           git submodule update --init --recursive
           git apply $CM_BUILD_DIR/changes.patch
-      - name: Setup build configuration
-        script: |
-          cd /tmp/Telegram-iOS
-          python3 build-system/Make/Make.py \
-            --overrideXcodeVersion \
-            generateProject \
-            --configurationPath=build-system/minimal-build-configuration.json
-      - name: Build IPA (Unsigned / Simulator or Device)
+      - name: Build IPA via Bazel
         script: |
           cd /tmp/Telegram-iOS
           mkdir -p $CM_BUILD_DIR/artifacts
           python3 build-system/Make/Make.py \
             --overrideXcodeVersion \
-            buildForDevice \
+            build \
             --configurationPath=build-system/minimal-build-configuration.json \
-            --outputPath=$CM_BUILD_DIR/artifacts/Telegram.ipa || true
+            --xcodeManagedCodesigning \
+            --configuration=release_arm64 \
+            --buildNumber=10000 \
+            --outputBuildArtifactsPath=$CM_BUILD_DIR/artifacts
     artifacts:
       - artifacts/*.ipa
       - artifacts/*.app
+      - artifacts/*.zip
